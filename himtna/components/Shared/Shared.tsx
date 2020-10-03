@@ -17,7 +17,7 @@ export const BodyStyle = styled(ScrollView)`
   borderTopLeftRadius: 25px;
   ${Platform.select({
   ios: { backgroundColor: 'white' }, android: {
-    backgroundColor: 'rgb(219,220,200)'
+    backgroundColor: 'white'
   }
 })};
 `;

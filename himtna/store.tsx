@@ -1,16 +1,16 @@
-
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import axios from 'axios';
 import axiosMiddleware from 'redux-axios-middleware';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
+
+declare var window: any;
+
 const client = axios.create({
-  baseURL: 'http://67.205.144.192/api/v1'
+  baseURL: 'https://himtna.com/api/v1',
+  responseType: 'json',
 });
 
-export default createStore(reducers,
-  applyMiddleware(
-    thunk,
-    axiosMiddleware(client),
-  )
-);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+export default createStore(reducers, composeEnhancers(applyMiddleware(thunk, axiosMiddleware(client))));

@@ -24,13 +24,12 @@ export default function Search({ navigation }) {
   return <Container forceInset={{ top: 'never' }}>
     <SearchContainer>
       <Row>
-
         <InputContainer>
           <Input
             onChangeText={setSearchTerm} value={searchTerm}
             maxLength={40} autoFocus onSubmitEditing={onSearch}
             placeholder={'Search for offers'}
-            autoFocus={true} returnKeyType={'search'}
+            autoFocus={false} returnKeyType={'search'}
           />
         </InputContainer>
         <SearchButton onPress={onSearch}>

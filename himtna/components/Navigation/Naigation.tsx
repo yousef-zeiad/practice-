@@ -8,7 +8,10 @@ import Home from '../Home/Home';
 import SignUp from '../SignUp/SignUp';
 import OfferDetails from '../OfferDetails/OfferDetails';
 import QRScreen from '../QRScreen/QRScreen';
-import BrandDetails from '../BrandDetails/BrandDetails'
+import BrandDetails from '../BrandDetails/BrandDetails';
+import CardInsurance from '../cardInsurance/CardInsurance';
+import Verify from '../Verify/Verify';
+import Profile from '../Profile/Profile';
 
 const transitionSpec = {
   useNativeDriver: true,
@@ -34,11 +37,59 @@ const QRPage = createStackNavigator({
     gestureEnabled: true,
   },
 });
+const profilePage = createStackNavigator({
+  Profile,
+}, {
+  // mode: 'modal',
+  headerMode: 'none',
+  navigationOptions: {
+    ...TransitionPresets.ModalPresentationIOS,
+    cardOverlayEnabled: true,
+    gestureEnabled: true,
+  },
+});
+const VerifyPage = createStackNavigator({
+  Verify,
+}, {
+  // mode: 'modal',
+  headerMode: 'none',
+  navigationOptions: {
+    ...TransitionPresets.ModalPresentationIOS,
+    cardOverlayEnabled: true,
+    gestureEnabled: true,
+  },
+});
+const BrandDetailsPage = createStackNavigator({
+  BrandDetails,
+}, {
+  // mode: 'modal',
+  headerMode: 'none',
+  navigationOptions: {
+    ...TransitionPresets.ModalPresentationIOS,
+    cardOverlayEnabled: true,
+    gestureEnabled: true,
+  },
+});
+const CardInsurancePage = createStackNavigator({
+  CardInsurance,
+}, {
+  // mode: 'modal',
+  headerMode: 'none',
+  navigationOptions: {
+    ...TransitionPresets.ModalPresentationIOS,
+    cardOverlayEnabled: true,
+    gestureEnabled: true,
+  },
+});
+
+
 const App = createSharedElementStackNavigator({
   Home,
   OfferDetails,
   QRPage,
-  BrandDetails
+  BrandDetailsPage,
+  CardInsurancePage,
+  profilePage
 }, {
   mode: 'modal',
   headerMode: 'none',
@@ -59,7 +110,8 @@ const AuthLoading = createStackNavigator({
 
 const Start = createStackNavigator({
   CheckNumber,
-  SignUp
+  SignUp,
+  VerifyPage
 }, {
   mode: 'modal',
   headerMode: 'none',

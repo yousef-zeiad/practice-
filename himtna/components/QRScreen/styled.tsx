@@ -25,17 +25,18 @@ export const Title = styled.Text`
   justifyContent: center;
 `;
 export const OfferDetailLogo = styled(FastImage)`
-  height:152px;
+  height:200px;
   width:277px;
 `;
 export const LogoWrapper = styled(FastImage)`
  justifyContent: center;
  alignItems:center;
+ paddingTop:30px
 `;
 
-export const Logo = () => (
+export const Logo = ({ message }) => (
   <LogoWrapper>
-    <OfferDetailLogo source={require('../../assets/logo_placeholder.png')}
+    <OfferDetailLogo source={`data:image/png;base64,${message}` ? { uri: `data:image/png;base64,${message}` } : require('../../assets/logo_placeholder.png')}
       resizeMode={FastImage.resizeMode.contain} />
   </LogoWrapper>
 );
@@ -43,6 +44,8 @@ export const Container = styled.View`
   backgroundColor: ${Colors.white};
   paddingBottom: 20px;
   flex: 1;
+  justify-content:center;
+  alignItems:center
 `;
 export const BranchTitle = styled.Text`
   color: ${Colors.black};
@@ -64,7 +67,7 @@ export const OfferWrapper = styled(FastImage)`
  alignItems:center;
  flex-direction:row
 `;
-export const OfferTile = ({ branch, offer }) => (
+export const OfferTile = ({ id, branch, offer }) => (
   <OfferWrapper>
     <BranchTitle>
       {branch}

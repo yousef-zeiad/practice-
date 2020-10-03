@@ -39,7 +39,7 @@ export const Input = styled.TextInput`
   color: ${Colors.black};
   paddingHorizontal: 10px;
   fontSize: 14px;
-    paddingVertical:14px;
+  paddingVertical:14px;
 `;
 export const SearchButton = styled.TouchableOpacity`
   height: 35px;

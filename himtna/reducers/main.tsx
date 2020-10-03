@@ -6,40 +6,56 @@ const initialState = {
   favoritePromotions: []
 };
 export default (state = initialState, action: AnyAction) => {
+
   switch (action.type) {
-    case 'LOAD':
+    case 'CATEGORY':
       return {
         ...state,
         isLoading: true
       };
-    case 'CAT_SUC':
+    case 'CATEGORY_SUCCESS':
       return {
         ...state,
         isLoading: false,
-        result: action.payload.data
       }
-    case 'CAT_ERROR':
+    case 'CATEGORY_ERROR':
       return {
         ...state,
         isLoading: false,
         error: 'fuck'
-      }
-    case 'TOGGLE_FAVORITE':
-      const updatedFavPromotion = [...state.favoritePromotions]
-      const existing = state.favoritePromotions.findIndex(promotion => promotion.id === action.promotionId);
-      updatedFavPromotion.splice(existing, 1)
-      if (existing >= 0) {
-        return {
-          ...state, favoritePromotions: updatedFavPromotion
-        }
-      } else {
-        return {
-          ...state
-        }
-      }
+      };
+    case 'BRAND':
       return {
-
+        ...state,
+        isLoading: true
+      };
+    case 'BRAND_SUCCESS':
+      return {
+        ...state,
+        isLoading: false,
       }
+    case 'BRAND_ERROR':
+      return {
+        ...state,
+        isLoading: false,
+        error: 'fuck'
+      };
+    case 'PROMOTION':
+      return {
+        ...state,
+        isLoading: true
+      };
+    case 'PROMOTION_SUCCESS':
+      return {
+        ...state,
+        isLoading: false,
+      }
+    case 'PROMOTION_ERROR':
+      return {
+        ...state,
+        isLoading: false,
+        error: 'fuck'
+      };
     default:
       return {
         ...state

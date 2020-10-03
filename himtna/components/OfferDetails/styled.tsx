@@ -11,9 +11,16 @@ export const Container = styled.View`
   justifyContent:flex-start;
   align-items:center
 `;
-export const OfferDetailLogo = styled(FastImage)`
-marginTop:30px;
-  height:236px;
+// export const OfferDetailLogo = styled(FastImage)`
+// marginTop:30px;
+//   height:236px;
+//   width:277px;
+//   paddingLeft: 26px;
+//   paddingRight: 26px;
+// `;
+export const OfferDetailLogo = styled.View`
+marginTop:100px;
+  height:0px;
   width:277px;
   paddingLeft: 26px;
   paddingRight: 26px;
@@ -78,8 +85,9 @@ export const Valid = ({ title, date }) => (
 );
 export const Logo = () => (
   <>
-    <OfferDetailLogo source={require('../../assets/logo_placeholder.png')}
-      resizeMode={FastImage.resizeMode.contain} />
+    {/* <OfferDetailLogo source={require('../../assets/logo_placeholder.png')}
+      resizeMode={FastImage.resizeMode.contain} /> */}
+    <OfferDetailLogo />
   </>
 );
 

@@ -18,11 +18,10 @@ export default function SignUp({ navigation }) {
   const dispatch = useDispatch();
   const { control, handleSubmit, errors } = useForm();
   const onChange = args => ({ value: args[0].nativeEvent.text.toLowerCase() });
-  const handleInputChange = (e) => {
-    e.target.value
-  }
-  const onSubmit = () => {
-    dispatch(actions.auth.signup())
+
+  const onSubmit = (form) => {
+    dispatch(actions.auth.signup({ ...form, is_merchant: !!form.store }))
+    navigation.goBack();
   }
   const onSubmitHandler = useCallback(handleSubmit(onSubmit), [handleSubmit, onSubmit]);
   const [showMerchant, setShowMerchant] = useState(false);
@@ -70,7 +69,7 @@ export default function SignUp({ navigation }) {
                 />}
                 control={control}
                 name={'name'}
-                onChange={handleInputChange}
+                onChange={onChange}
                 defaultValue={''}
                 rules={{ required: true }}
               />
@@ -113,18 +112,19 @@ export default function SignUp({ navigation }) {
                   placeholder={'+962'}
                 />}
                 control={control}
-                name={'email'}
+                name={'phone'}
                 onChange={onChange}
                 defaultValue={''}
                 rules={{ required: true }}
+              // rules={{ required: true, pattern: { value: isPhone, message: 'Wrong Phone Number' } }}
               />
-              {errors.email && <ErrorText>Phone number is required</ErrorText>}
+              {errors.phone && <ErrorText>Phone number is required</ErrorText>}
               {
                 showMerchant && <>
-                  <InputLabel onPress={() => refs.name.focus()}>Store Name</InputLabel>
+                  <InputLabel onPress={() => refs.store.focus()}>Store Name</InputLabel>
                   <Controller
                     as={<TextInput
-                      ref={ref => refs.name = ref}
+                      ref={ref => refs.store = ref}
                       autoCorrect={false}
                       autoCapitalize={'none'}
                       returnKeyType={'done'}
@@ -132,20 +132,20 @@ export default function SignUp({ navigation }) {
                       keyboardType={'default'}
                       textContentType={'name'}
                       placeholder={'Store name'}
-                      error={errors.name}
+                      error={errors.store}
                       autoFocus={true}
                     />}
                     control={control}
-                    name={'name'}
+                    name={'store'}
                     onChange={onChange}
                     defaultValue={''}
                     rules={{ required: true }}
                   />
-                  {errors.name && <ErrorText>store name is required</ErrorText>}
+                  {errors.store && <ErrorText>store name is required</ErrorText>}
                   <InputLabel onPress={() => refs.description.focus()}>Store and services description</InputLabel>
                   <Controller
                     as={<TextArea
-                      ref={ref => refs.name = ref}
+                      ref={ref => refs.description = ref}
                       autoCorrect={false}
                       autoCapitalize={'none'}
                       returnKeyType={'done'}
@@ -158,16 +158,16 @@ export default function SignUp({ navigation }) {
                       error={errors.description}
                     />}
                     control={control}
-                    name={'name'}
+                    name={'description'}
                     onChange={onChange}
                     defaultValue={''}
                     rules={{ required: true }}
                   />
-                  {errors.name && <ErrorText> description  is required</ErrorText>}
+                  {errors.description && <ErrorText> description  is required</ErrorText>}
                 </>
               }
               <ButtonsContainer>
-                <Button onPress={onSubmitHandler} >
+                <Button onPress={onSubmitHandler}>
                   <ButtonText>Sign up</ButtonText>
                 </Button>
               </ButtonsContainer>

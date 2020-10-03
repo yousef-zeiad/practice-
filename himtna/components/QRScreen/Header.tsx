@@ -14,19 +14,20 @@ const HeaderWrapper = styled(SafeAreaView)`
   paddingRight: 20px;
   paddingTop: 30px;
   paddingBottom: 14px;
+  backgroundColor:${Colors.white};
 `;
 const HeaderContainer = styled.View`
   flexDirection: row;
   alignItems: center;
   justifyContent: space-between;
   height: 100%;
-  width:40%
+  width:130px;
 `;
 const HeaderTitleText = styled.Text`
   fontSize: 16px;
   fontWeight: bold;
   justifyContent: space-between;
-  alignSelf:center
+  alignSelf: center;
 `;
 const HeaderTitleEditProfile = styled.TouchableOpacity`
 
@@ -63,7 +64,7 @@ const Header = ({ name, navigation }) =>
   <>
     <HeaderWrapper forceInset={{ top: 'never' }}>
       <HeaderLeft navigation={navigation} />
-      <HeaderTitleText>{"QR Code"}</HeaderTitleText>
+      <HeaderTitleText>{name}</HeaderTitleText>
     </HeaderWrapper>
   </>;
 

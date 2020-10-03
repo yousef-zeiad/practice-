@@ -17,13 +17,13 @@ export const BranchTileCover = styled(FastImage)`
 
 
 const ExternalHeader = styled.View`
-  height: 50px;
+  /* height: 50px; */
   flexDirection: row;
   alignItems: center;
   justifyContent: space-between;
   paddingRight: 20px;
   paddingLeft: 20px;
-  paddingTop: 60px;
+  paddingTop: 30px;
 `;
 const ChatButton = styled.TouchableOpacity`
   height: 33px;
@@ -76,9 +76,9 @@ const HeaderGradient = styled(RNLinearGradient)`
 
 export const Header = ({ navigation, style, title, onPressMore, transitionStyle, color }) =>
   <HeaderContainer style={style}>
-    <Animated.View style={transitionStyle}>
+    {/* <Animated.View style={transitionStyle}>
       <HeaderGradient colors={['black']} />
-    </Animated.View>
+    </Animated.View> */}
     <ExternalHeader style={{ opacity: 1 }}>
       <BackButton onPress={() => navigation.pop()}>
         <BackIcon

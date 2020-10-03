@@ -23,7 +23,7 @@ export const Container = styled.View`
 `;
 
 export const BackgroundCover = styled(FastImage)`
-  height:230px;
+  height:210px;
   width:100%;
 `;
 export const BrandLogoContainer = styled.View`
@@ -38,7 +38,6 @@ export const BrandLogoContainer = styled.View`
   width:100px;
   alignSelf:center;
   justifyContent:center;
-  zIndex: 1;
 `;
 export const BrandLogo = styled.View`
   borderRadius: 50px;
@@ -58,6 +57,7 @@ export const BrandLogo = styled.View`
 export const Logo = styled(FastImage)`
   height:64px;
   width:76px;
+  borderRadius:50px
 `;
 
 export const MainContainer = styled.ScrollView`
@@ -68,32 +68,24 @@ export const MainContainer = styled.ScrollView`
 export const BrandDescription = styled.Text`
   fontSize:12px;
   color:${Colors.black};
+  paddingTop:50px
 `;
-// export const BrandsDescription = ({ navigation, details: {
-//   image, description, discounted, logo
-// } = {} }) => (
-//     <>
-//       <BrandDescription>
-//         {description}
-//       </BrandDescription>
-//     </>
-//   )
-export const BrandsDescription = ({ navigation, description, open_hour, close_hour, location }) => (
+
+export const BrandsDescription = ({ navigation, description, location, sevices, brands: { open_time, close_time } = {} }) => (
   <>
     <BrandDescription>
-      {description}
+      {description ? description : ''}
     </BrandDescription>
     <Text style={{ marginTop: 13 }}>
       Working hours :
       <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
-        {open_hour}
-        {/* {`${open_hour} - ${close_hour}`} */}
+        {` ${open_time ? open_time : ''} - ${close_time ? close_time : ''}`}
       </Text>
     </Text>
     <Text style={{ marginTop: 6 }}>
       Address :
       <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
-        {location}
+        {location ? location : ''}
       </Text>
     </Text>
     <Text style={{ marginTop: 6 }}>
@@ -122,39 +114,11 @@ const PromotionOffersTop = styled.View`
   marginBottom: 10px;
 `;
 const PromotionOffersCard = styled.View`
-  /* marginRight: 50px;
-  marginRight: 50px; */
   justifyContent: space-between;
   alignItems: center;
   flexDirection: column;
   marginTop: 17px;
-  /* paddingLeft: 2px;
-  paddingBottom: 17px; */
 `;
-// const ServeiceTitle = styled.Text`
-//   fontSize: 12px;
-//   color: ${Colors.secondary};
-//   alignSelf: flex-start;
-
-// `;
-// const PromotionOffersLogo = styled.View`
-//   width: 60px;
-//   height: 60px;
-//   top: 10px;
-//   right:10px;
-//   zIndex: 1;
-//   position: absolute;
-//   backgroundColor:${Colors.gradient3};
-//   justifyContent: center;
-//   alignItems: center;
-//   borderRadius: 50px;
-// `;
-// const PromotionDescount = styled.Text`
-//   color: ${Colors.white};
-//   justifyContent: center;
-//   alignItems: center;
-//   /* fontWeight:bold; */
-// `;
 
 const PromotionOffersWrapper = styled.View`
   width: 100%;
@@ -177,22 +141,12 @@ const PromotionTileTitleContainer = styled.View`
   width: 100%;
   height: 84px;
   position: absolute;
-  bottom: -1;
+  bottom: 0px;
   backgroundColor: ${Colors.white};
   padding: 0px 15px;
   paddingTop: 10px;
 `;
-// const PromotionTileWrapper = styled.View`
-//   width: 100%;
-// `;
-// const PromotionTileContainer = styled.View`
-//   height: 215px;
-//   alignItems: center;
-//   flexDirection: row;
-//   backgroundColor: ${props => props.background};
-//   elevation: 4;
-//   borderRadius: 14px;
-// `;
+
 const PromotionTileTitle = styled.Text`
   fontSize: 14px;
   lineHeight: 28px;
@@ -222,41 +176,44 @@ const PromotionTileLogo = styled(FastImage)`
   position: absolute;
 `;
 
-export const PromotionOffers = ({ navigation, promotion, onPress, promotion: {
-  image, name, discounted, logo } = {} }) => (
+export const PromotionOffers = ({ navigation, promotion, onPress, brands: {
+  image, name, discount, logo } = {} }) => (
     <PromotionOffersCard>
       <PromotionOffersTop>
         <PromotionOffersContainer background={Colors.secondary}>
-          <PromotionOffersWrapper>
-            <PromotionOffersPhotosContainer>
-              {/* <SharedElement id={`item.${promotion.id}.photo`} style={{ width: '100%', height: '100%' }}> */}
-              <PromotionOffersCover
-                source={image ? { uri: image } : require('../../assets/branch_placeholder.png')}
-                resizeMode={FastImage.resizeMode.cover}
-              />
-              {/* </SharedElement> */}
-            </PromotionOffersPhotosContainer>
-            <PromotionTileTitleContainer>
-              <PromotionTileTitle>{name.ar}</PromotionTileTitle>
-              <OfferContainer>
-                <TagImage source={require('../../assets/Logo.png')}
-                  resizeMode={FastImage.resizeMode.contain}
-                  tintColor={Colors.primary} />
-                <PromotionTileAddress>{`${discounted} % Off`}</PromotionTileAddress>
-                <TouchableOpacity onPress={onPress} style={{
-                  top: 0,
-                  right: 0,
-                  zIndex: 1,
-                  position: 'absolute'
-                }}>
-                  <PromotionTileLogo
-                    source={require('../../assets/fav.png')}
+          <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
+            <PromotionOffersWrapper>
+              <PromotionOffersPhotosContainer>
+                {/* <SharedElement id={`item.${promotion}.photo`} style={{ width: '100%', height: '100%' }}> */}
+                <PromotionOffersCover
+                  source={image ? { uri: image } : require('../../assets/branch_placeholder.png')}
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+                {/* </SharedElement> */}
+              </PromotionOffersPhotosContainer>
+              <PromotionTileTitleContainer>
+                <PromotionTileTitle>{name.en}</PromotionTileTitle>
+                <OfferContainer>
+                  <TagImage source={require('../../assets/Logo.png')}
                     resizeMode={FastImage.resizeMode.contain}
-                  />
-                </TouchableOpacity>
-              </OfferContainer>
-            </PromotionTileTitleContainer>
-          </PromotionOffersWrapper>
+                    tintColor={Colors.primary} />
+                  <PromotionTileAddress>{`${discount} % Off`}</PromotionTileAddress>
+                  {/* <TouchableOpacity onPress={onPress} style={{
+                    top: 0,
+                    right: 0,
+                    zIndex: 1,
+                    left: 0,
+                    position: 'absolute'
+                  }}>
+                    <PromotionTileLogo
+                      source={require('../../assets/fav.png')}
+                      resizeMode={FastImage.resizeMode.contain}
+                    />
+                  </TouchableOpacity> */}
+                </OfferContainer>
+              </PromotionTileTitleContainer>
+            </PromotionOffersWrapper>
+          </TouchableOpacity>
         </PromotionOffersContainer>
       </PromotionOffersTop>
     </PromotionOffersCard>

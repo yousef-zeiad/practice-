@@ -1,90 +1,99 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from '../../actions';
 import { Header } from './Header';
 import { Body, StackPage } from '../Shared/Shared';
 import Search from '../Search/Search';
-import axios from 'axios';
 import {
   PromotionTile, Title, Container,
-  ButtonContainer, CategoryTile, PromotionOffers, CategoriesList, PromotionList
+  ButtonContainer, CategoryTile, PromotionOffers,
+  CategoriesList, PromotionList, BrandsList
 } from './styled';
-import { View, TouchableOpacity } from 'react-native';
-import Favorie from './Favorite'
+import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { SafeView } from '../AuthLoading/styled';
 
 export default function Home({ navigation }) {
   const dispatch = useDispatch();
-  const favPromotion = useSelector(state => state.main.favoritePromotions);
-  const toggleFav = navigation.getParam('toggleFav')
+  const toggleFav = navigation.getParam('toggleFav');
   const [data, setData] = useState([]);
   const [promotions, setProm] = useState([]);
   const [brands, setBrand] = useState([]);
+  const { is_merchant } = useSelector(state => state.auth)
+
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(`http://67.205.144.192/api/v1/categories`);
-      console.log(result.data, "po");
-      setData(result.data.data);
+      const result = await dispatch(actions.main.loadCategories());
+      setData(result.payload.data.data);
     }
     fetchData()
   }, [setData]);
 
   useEffect(() => {
-    const fetchPromo = async () => {
-      const result = await axios.get(`http://67.205.144.192/api/v1/promotions`);
-
-      setProm(result.data.data);
+    const fetchPromotion = async () => {
+      const result = await dispatch(actions.main.getPromotions());
+      setProm(result.payload.data.data);
     }
-    fetchPromo()
+    fetchPromotion()
   }, [setProm]);
 
   useEffect(() => {
-    const fetchPromo = async () => {
-      const result = await axios.get(`http://67.205.144.192/api/v1/brands`);
-      setBrand(result.data.data);
+    const fetchBrand = async () => {
+      const result = await dispatch(actions.main.getBrands(data));
+      setBrand(result.payload.data.data);
     }
-    fetchPromo()
-  }, [setBrand])
+    fetchBrand()
+  }, [setBrand]);
 
   return (
     <>
       <Header navigation={navigation} />
       <StackPage >
-        <Body>
+        <Body nestedScrollEnabled={true}>
           <Search navigation={navigation} />
-          <PromotionList horizontal contentContainerStyle={{}} showsHorizontalScrollIndicator={false}>
-            {promotions.map(promotion => {
-              return (<PromotionTile key={promotion.id} promotion={promotion} navigation={navigation} onPress={() => { }} />)
-            })}
-          </PromotionList>
+          {is_merchant === 0 && promotions ? <PromotionList horizontal contentContainerStyle={{}} showsHorizontalScrollIndicator={false}>
+            {promotions.map(promotion =>
+              <PromotionTile key={promotion.id} promotion={promotion} navigation={navigation} onPress={() => { }} />
+            )}
+          </PromotionList> : <SafeView forceInset={{ top: 'always' }}>
+              {is_merchant === 0 && <ActivityIndicator />}
+            </SafeView>}
+
           <Container>
-            <ButtonContainer>
+            {is_merchant === 0 && <ButtonContainer>
               <Title fontSize={16}>
                 All Offers
               </Title>
-              <Title fontSize={16}>
+              <Title fontSize={16} style={{ color: '#c2c2c2' }}>
                 Offers Near Me
               </Title>
               <TouchableOpacity onPress={() => console.log(toggleFav, 'toggleFav')}>
-
-                <Title fontSize={16}>
+                <Title fontSize={16} style={{ color: '#c2c2c2' }}>
                   My Favorites
               </Title>
               </TouchableOpacity>
-            </ButtonContainer>
-            <CategoriesList bounces horizontal contentContainerStyle={{ paddingLeft: 20 }} showsHorizontalScrollIndicator={false}>
+            </ButtonContainer>}
+            {is_merchant === 0 && <CategoriesList bounces horizontal contentContainerStyle={{ paddingLeft: 20 }} showsHorizontalScrollIndicator={false}>
               {data.map(category => <CategoryTile category={category} key={category.id}
-                onPress={() => { }}
+                onPress={() => { category.id }}
                 selected={''} />)}
-            </CategoriesList>
-            <Title fontSize={16} style={{ paddingLeft: 25 }}>
-              Resto
+            </CategoriesList>}
+            <Title fontSize={16} style={{ paddingLeft: 20 }}>
+              Restorants
             </Title>
-            <TouchableOpacity onPress={() => navigation.push('BrandDetails')}>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                {brands.map(brand => <PromotionOffers brands={brand} navigation={navigation} />)}
-
-              </View>
-            </TouchableOpacity>
+            {brands ? <BrandsList
+              horizontal={false}
+              numColumns={2}
+              data={brands}
+              keyExtractor={item => item.id}
+              renderItem={({ item }) => (<PromotionOffers brands={item} key={item.id}
+                navigation={navigation}
+                onPress={() => navigation.push('BrandDetailsPage', { brand: item, promotions, is_merchant })} />)}
+              onEndReachedThreshold={1}
+              contentContainerStyle={{ justifyContent: 'center', alignSelf: 'center' }}
+              nestedScrollEnabled={true}
+            /> : <SafeView forceInset={{ top: 'always' }}>
+                <ActivityIndicator />
+              </SafeView>}
           </Container>
         </Body>
       </StackPage>
